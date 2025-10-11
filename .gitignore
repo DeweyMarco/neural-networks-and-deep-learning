@@ -1,8 +1,65 @@
+# Editor backup files
 *~
 *.org
+
+# Credentials and keys
 *.pem
+
+# Data files
 *.pkl
+*.pkl.gz
+
+# Python compiled files
 *.pyc
+*.pyo
+__pycache__/
+
+# Operating system files
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Saved model files
+network_1/trained_*.json
+network_2/trained_*.json
+**/trained_network*.json
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project-specific
 loc.py
 src/ec2
