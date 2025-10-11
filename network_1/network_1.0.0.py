@@ -1,37 +1,39 @@
 """
-Deeper Neural Network (Version 1.1)
-====================================
+Your First Neural Network
+==========================
 
-WHAT'S NEW IN VERSION 1.1:
-This script builds upon network_1.0.py by adding a SECOND HIDDEN LAYER,
-demonstrating how deeper architectures can learn more complex representations.
+This script introduces the FUNDAMENTALS of neural network training using
+a simple 3-layer network on the MNIST handwritten digit dataset.
 
-KEY DIFFERENCE FROM 1.0:
-- network_1.0.py: [784, 30, 10] - ONE hidden layer (3 layers total)
-- network_1.1.py: [784, 30, 30, 10] - TWO hidden layers (4 layers total)
+WHAT YOU'LL LEARN:
+- How neural networks are structured (layers, neurons, weights, biases)
+- How backpropagation learns from examples
+- How stochastic gradient descent (SGD) optimizes the network
+- What happens during training epochs
 
 ARCHITECTURE:
-Input (784) → Hidden 1 (30) → Hidden 2 (30) → Output (10)
-
-WHY ADD ANOTHER LAYER?
-- First hidden layer: learns low-level features (edges, curves)
-- Second hidden layer: combines features into higher-level patterns
-- Deeper networks can represent more complex functions
-- Trade-off: more parameters to train, more computation, risk of vanishing gradients
+Input Layer (784 neurons) → Hidden Layer (30 neurons) → Output Layer (10 neurons)
 
 Each neuron computes: activation = σ(Σ(w·x) + b)
 where σ is the sigmoid function: σ(z) = 1/(1 + e^(-z))
 
 TRAINING ALGORITHM:
 Uses stochastic gradient descent (SGD) with backpropagation:
-1. Forward pass: compute predictions through all layers
+1. Forward pass: compute predictions
 2. Compute error (cost function)
-3. Backward pass: calculate gradients using backpropagation (now through more layers!)
+3. Backward pass: calculate gradients using backpropagation
 4. Update weights and biases to reduce error
 
-Expected accuracy: ~95-96% after 30 epochs (slightly better than 1.0)
+Expected accuracy: ~95% after 30 epochs
 
-Run: python network_1.1.py
+WHAT'S NEXT:
+After understanding this baseline, explore how different hyperparameters affect learning:
+- network_1.0.1.py and network_1.0.2.py: Different learning rates
+- network_1.0.3.py and network_1.0.4.py: Different batch sizes
+- network_1.0.5.py and network_1.0.6.py: Different epoch counts
+- network_1.1.0.py, network_1.2.0.py, network_1.3.0.py: Different architectures
+
+Run: python network_1.0.0.py
 """
 
 import sys
@@ -41,10 +43,7 @@ import network
 
 def main():
     print("=" * 60)
-    print("Training Your First DEEPER Neural Network (v1.1)")
-    print("=" * 60)
-    print("Improvement over v1.0: Added second hidden layer")
-    print("[784, 30, 10] → [784, 30, 30, 10]")
+    print("Training Your First Neural Network")
     print("=" * 60)
     
     # ========================================================================
@@ -72,56 +71,36 @@ def main():
     # ========================================================================
     # STEP 2: Create the neural network
     # ========================================================================
-    # Architecture: [784, 30, 30, 10] - DEEPER than network_1.0.py!
+    # Architecture: [784, 30, 10]
     #
     # Layer 1 (Input): 784 neurons
     #   - One neuron per pixel in the 28×28 image
     #   - No computation, just passes input values forward
     #
-    # Layer 2 (Hidden 1): 30 neurons
+    # Layer 2 (Hidden): 30 neurons
     #   - Each neuron connected to ALL 784 input neurons
     #   - Total weights: 784 × 30 = 23,520 weights + 30 biases
     #   - Computation: a²ⱼ = σ(Σᵢ w²ⱼᵢ·a¹ᵢ + b²ⱼ)
-    #   - Learns LOW-LEVEL features (edges, curves, simple shapes)
+    #   - This layer learns to detect features (edges, curves, etc.)
     #
-    # Layer 3 (Hidden 2): 30 neurons *** NEW IN VERSION 1.1! ***
-    #   - Each neuron connected to all 30 neurons from Hidden 1
-    #   - Total weights: 30 × 30 = 900 weights + 30 biases
-    #   - Computation: a³ⱼ = σ(Σᵢ w³ⱼᵢ·a²ᵢ + b³ⱼ)
-    #   - Learns HIGH-LEVEL features by combining low-level features
-    #   - Can detect more complex patterns (loops, junctions, digit parts)
-    #
-    # Layer 4 (Output): 10 neurons
+    # Layer 3 (Output): 10 neurons
     #   - One neuron per digit class (0-9)
-    #   - Each neuron connected to all 30 Hidden 2 neurons
+    #   - Each neuron connected to all 30 hidden neurons
     #   - Total weights: 30 × 10 = 300 weights + 10 biases
     #   - Highest activation indicates predicted digit
     #
-    # Total Parameters: 23,520 + 30 + 900 + 30 + 300 + 10 = 24,790 parameters
-    # Comparison to network_1.0.py: 24,790 vs 23,860 = +930 parameters (+3.9%)
-    #
-    # Benefits of extra layer:
-    #   + Can learn hierarchical features (low-level → high-level)
-    #   + Better representational power for complex patterns
-    #   + Often achieves slightly better accuracy
-    #
-    # Drawbacks of extra layer:
-    #   - More parameters to train (slower training)
-    #   - Deeper gradient path (risk of vanishing gradients with sigmoid)
-    #   - Needs more careful hyperparameter tuning
+    # Total Parameters: 23,520 + 30 + 300 + 10 = 23,860 learnable parameters!
     #
     # Initialization:
     # - Weights: Random values from Gaussian distribution N(0, 1)
     # - Biases: Random values from Gaussian distribution N(0, 1)
     # - Random initialization breaks symmetry so neurons learn different features
     print("\n2. Creating network...")
-    print("   Architecture: [784, 30, 30, 10] (DEEPER than version 1.0)")
+    print("   Architecture: [784, 30, 10]")
     print("   - Input layer: 784 neurons (28×28 pixel image)")
-    print("   - Hidden layer 1: 30 neurons (low-level features)")
-    print("   - Hidden layer 2: 30 neurons (high-level features) *** NEW ***")
+    print("   - Hidden layer: 30 neurons")
     print("   - Output layer: 10 neurons (digits 0-9)")
-    print("   - Total parameters: 24,790 (vs 23,860 in version 1.0)")
-    net = network.Network([784, 30, 30, 10])
+    net = network.Network([784, 30, 10])
     
     # ========================================================================
     # STEP 3: Train using Stochastic Gradient Descent (SGD)
@@ -178,38 +157,28 @@ def main():
     # ========================================================================
     # WHAT JUST HAPPENED?
     # ========================================================================
-    # The network just learned to recognize handwritten digits using a DEEPER architecture!
+    # The network just learned to recognize handwritten digits!
     # 
     # During training:
     # - Saw 50,000 images × 30 epochs = 1,500,000 examples
     # - Made 5,000 weight updates per epoch × 30 epochs = 150,000 updates
-    # - Adjusted 24,790 parameters to minimize classification errors
+    # - Adjusted 23,860 parameters to minimize classification errors
     #
-    # What the DEEPER network learned (hierarchical representation):
-    # - Hidden layer 1: detects low-level features (edges, curves, corners)
-    # - Hidden layer 2: combines into high-level patterns (loops, digit parts)
-    # - Output layer: combines high-level patterns to recognize complete digits
-    # - The extra layer enables more complex feature hierarchies!
+    # What the network learned:
+    # - Hidden layer neurons detect edges, curves, loops, and other features
+    # - Output layer neurons combine these features to recognize digits
+    # - The network can now generalize to NEW handwritten digits it's never seen!
     #
-    # Comparison to network_1.0.py (shallow network):
-    # - network_1.0.py [784, 30, 10]: One-step feature extraction → classification
-    # - network_1.1.py [784, 30, 30, 10]: Two-step hierarchical feature learning
-    # - Deeper network often achieves 0.5-1% better accuracy
-    # - Trade-off: +930 parameters, slightly slower training per epoch
-    #
-    # Key insight about depth:
-    # - Depth allows hierarchical feature learning (similar to visual cortex)
-    # - However, with sigmoid activation, very deep networks struggle (vanishing gradients)
-    # - Modern deep networks use ReLU and other techniques (see network2.py, network3.py)
-    #
-    # Limitations of this approach:
+    # Limitations of this basic approach:
     # 1. Quadratic cost causes "learning slowdown" when neurons saturate
     # 2. No regularization → may overfit to training data
-    # 3. Large learning rate needed but can cause instability
+    # 3. Fixed learning rate doesn't adapt during training
     # 4. Using test data for monitoring isn't best practice
-    # 5. Sigmoid + depth = vanishing gradient problems
     #
-    # See network2.py for improvements that address these issues!
+    # Next steps in your learning journey:
+    # - Try network_1.0.1.py to see how lower learning rates affect training
+    # - See network_1.1.0.py+ for architecture experiments (depth vs width)
+    # - For advanced techniques, see network2.py and network3.py
 
 if __name__ == "__main__":
     main()

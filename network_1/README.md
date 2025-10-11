@@ -1,57 +1,236 @@
-# Network Architecture Comparison
+# Neural Network Fundamentals: A Hands-On Learning Journey
 
-This folder contains 4 different neural network architectures demonstrating the effects of **WIDTH** vs **DEPTH** on MNIST digit classification.
+This folder contains a **progressive educational series** of 10 neural network experiments designed to teach you how neural networks work by exploring different hyperparameters and architectures on the MNIST digit classification task.
 
-## Network Variants
+## Learning Path
 
-| Network | Architecture | Parameters | Strategy | Expected Accuracy |
-|---------|-------------|------------|----------|------------------|
-| **network_1.0.py** | `[784, 30, 10]` | 23,860 | Baseline (narrow + shallow) | ~95% |
-| **network_1.1.py** | `[784, 30, 30, 10]` | 24,790 | Depth (narrow + deep) | ~95-96% |
-| **network_1.2.py** | `[784, 60, 10]` | 47,710 | Width (wide + shallow) | ~96-97% |
-| **network_1.3.py** | `[784, 60, 60, 10]` | 51,370 | Width + Depth (wide + deep) | ~97-98% |
+Read and run these files **in order** for the best learning experience. Each file builds on knowledge from previous ones.
+
+### Part 1: Foundation (START HERE!)
+
+**network_1.0.0.py** - Your First Neural Network
+- Architecture: `[784, 30, 10]` (23,860 parameters)
+- Comprehensive introduction to neural networks
+- Covers: layers, neurons, weights, biases, backpropagation, SGD
+- Standard hyperparameters: η=3.0, batch=10, epochs=30
+- Expected accuracy: ~95%
+- **Start here!** This establishes the baseline for all comparisons.
 
 ---
 
-## Running Individual Networks
+### Part 2: Learning Rate Experiments
 
-To run any single network:
+Explore how learning rate affects training speed and stability.
+
+**network_1.0.1.py** - Lower Learning Rate (η=0.5)
+- 6× smaller than baseline
+- Effect: Slower but more stable learning
+- Expected: ~85-90% accuracy (needs more epochs)
+- Lesson: Stability vs speed trade-off
+
+**network_1.0.2.py** - Higher Learning Rate (η=5.0)
+- 1.67× larger than baseline
+- Effect: Fast but noisy/unstable learning
+- Expected: ~95% in 15-20 epochs (but erratic)
+- Lesson: Speed vs stability risk
+
+**Key Insight:** Learning rate is a critical hyperparameter balancing convergence speed against training stability.
+
+---
+
+### Part 3: Batch Size Experiments
+
+Discover how batch size affects gradient quality and update frequency.
+
+**network_1.0.3.py** - Medium Batch (size=32)
+- 1,563 updates/epoch (vs baseline 5,000)
+- Effect: More stable gradients, better computational efficiency
+- Expected: ~95% accuracy, smoother training
+- Lesson: Industry standard for good reason
+
+**network_1.0.4.py** - Small Batch (size=5)
+- 10,000 updates/epoch (2× baseline)
+- Effect: Very frequent updates, high gradient noise
+- Expected: ~95% accuracy, erratic curve, better exploration
+- Lesson: Noise can help exploration but hurts efficiency
+
+**Key Insight:** Batch size balances gradient stability, update frequency, and computational efficiency.
+
+---
+
+### Part 4: Training Duration Experiments
+
+Learn how training duration affects convergence and overfitting.
+
+**network_1.0.5.py** - Extended Training (60 epochs)
+- 2× longer than baseline
+- Effect: More time to learn, diminishing returns
+- Expected: ~95-96% accuracy (only +0.5-1% gain)
+- Lesson: Doubling training time may not double performance
+
+**network_1.0.6.py** - Insufficient Training (10 epochs)
+- 1/3 of baseline
+- Effect: Underfitting - network stops before converging
+- Expected: ~88-92% accuracy (3-7% loss)
+- Lesson: Too few epochs leaves performance on the table
+
+**Key Insight:** Find the sweet spot - enough epochs to converge, not so many that you waste time or overfit.
+
+---
+
+### Part 5: Architecture Experiments
+
+Understand how network structure (width vs depth) affects learning.
+
+**network_1.1.0.py** - Adding Depth (2 hidden layers)
+- Architecture: `[784, 30, 30, 10]` (24,790 parameters)
+- Strategy: Hierarchical feature learning (low→high level)
+- Expected: ~95-96% accuracy
+- Lesson: Depth enables hierarchy, parameter-efficient
+
+**network_1.2.0.py** - Adding Width (60 neurons)
+- Architecture: `[784, 60, 10]` (47,710 parameters)
+- Strategy: More parallel feature detectors
+- Expected: ~96-97% accuracy
+- Lesson: Width provides capacity, avoids vanishing gradients
+
+**network_1.3.0.py** - Width + Depth Combined
+- Architecture: `[784, 60, 60, 10]` (51,370 parameters)
+- Strategy: Maximum representational power
+- Expected: ~97-98% accuracy (BEST!)
+- Lesson: Modern networks use BOTH width AND depth
+
+**Key Insight:** Width = parallel capacity, Depth = hierarchical learning, Both = maximum power!
+
+---
+
+## Quick Reference Table
+
+| File | Focus | Key Change | Expected Accuracy | Key Lesson |
+|------|-------|------------|-------------------|------------|
+| **1.0.0** | Baseline | Standard params | ~95% | Foundation |
+| **1.0.1** | Learning rate | η=0.5 (low) | ~85-90% | Slow but stable |
+| **1.0.2** | Learning rate | η=5.0 (high) | ~95% (fast) | Fast but risky |
+| **1.0.3** | Batch size | size=32 (medium) | ~95% | Balanced approach |
+| **1.0.4** | Batch size | size=5 (small) | ~95% | Exploration vs efficiency |
+| **1.0.5** | Epochs | 60 (extended) | ~95-96% | Diminishing returns |
+| **1.0.6** | Epochs | 10 (short) | ~88-92% | Underfitting |
+| **1.1.0** | Architecture | +Depth | ~95-96% | Hierarchy, efficient |
+| **1.2.0** | Architecture | +Width | ~96-97% | Capacity, parallel |
+| **1.3.0** | Architecture | +Both | ~97-98% | Maximum power |
+
+---
+
+## How to Use This Learning Series
+
+### Option 1: Sequential Learning (Recommended)
+Run each file in order to build understanding progressively:
 
 ```bash
 cd network_1
-python network_1.0.py  # or network_1.1.py, network_1.2.py, network_1.3.py
+
+# Start with the foundation
+python network_1.0.0.py
+
+# Explore learning rates
+python network_1.0.1.py
+python network_1.0.2.py
+
+# Explore batch sizes
+python network_1.0.3.py
+python network_1.0.4.py
+
+# Explore training duration
+python network_1.0.5.py
+python network_1.0.6.py
+
+# Explore architectures
+python network_1.1.0.py
+python network_1.2.0.py
+python network_1.3.0.py
 ```
 
-Each script will:
-- Load MNIST data
-- Train the network for 30 epochs
-- Display accuracy after each epoch
-- Provide detailed educational commentary
+### Option 2: Focused Learning
+Jump to specific topics of interest:
 
----
+**Want to understand hyperparameters?**
+→ Start with 1.0.0, then explore 1.0.1-1.0.6
 
-## Running the Benchmark
+**Want to understand architectures?**
+→ Start with 1.0.0, then jump to 1.1.0-1.3.0
 
-To compare all 4 networks with statistical analysis:
+**Want quick overview?**
+→ Run 1.0.0, 1.0.1, 1.0.3, 1.0.6, 1.1.0, 1.2.0, 1.3.0
+
+### Option 3: Comparative Benchmark
+Run the benchmark script to see statistical comparisons:
 
 ```bash
-cd network_1
 python benchmark_runner.py
 ```
 
-The benchmark runner will:
-- Run each network multiple times (configurable via `NUM_TRIALS`)
-- Track accuracy and training time for each run
-- Calculate mean, std dev, min, and max for all metrics
-- Display comprehensive comparison tables on screen
+See the [Benchmark Configuration](#benchmark-configuration) section below for details.
 
 ---
 
-## Configuring the Benchmark
+## What Each Script Does
 
-### Quick Start
+Every script in this series:
+1. **Loads MNIST data** (50,000 training images, 10,000 test images)
+2. **Creates a neural network** with the specified architecture
+3. **Trains using SGD** with backpropagation
+4. **Displays progress** showing accuracy after each epoch
+5. **Provides educational commentary** explaining what's happening and why
 
-**It's easy!** Just change 4 variables at the top of `benchmark_runner.py`:
+### Educational Features
+
+Each file includes:
+- **Concise docstring** - Quick overview of the experiment
+- **Prerequisites** - Which files to read first
+- **Focused commentary** - Deep dive on ONE key concept
+- **Comparison notes** - How this relates to the baseline
+- **Next steps** - Where to go next in your learning
+
+### Example Output
+```
+==============================================================
+Training Your First Neural Network
+==============================================================
+
+1. Loading MNIST data...
+   ✓ Loaded 50000 training samples
+   ✓ Loaded 10000 test samples
+
+2. Creating network...
+   Architecture: [784, 30, 10]
+   - Input layer: 784 neurons (28×28 pixel image)
+   - Hidden layer: 30 neurons
+   - Output layer: 10 neurons (digits 0-9)
+
+3. Training network...
+   Epochs: 30
+   Mini-batch size: 10
+   Learning rate: 3.0
+
+------------------------------------------------------------
+Epoch 0: 9015 / 10000
+Epoch 1: 9238 / 10000
+Epoch 2: 9338 / 10000
+...
+Epoch 29: 9523 / 10000
+
+Final Accuracy: 95.23%
+```
+
+---
+
+## Benchmark Configuration
+
+The `benchmark_runner.py` script allows you to compare multiple networks statistically.
+
+### Quick Configuration
+
+Change these 4 variables at the top of `benchmark_runner.py`:
 
 ```python
 NUM_TRIALS = 3          # How many times to train each network
@@ -60,64 +239,9 @@ MINI_BATCH_SIZE = 10    # Batch size for SGD
 LEARNING_RATE = 3.0     # Learning rate for SGD
 ```
 
-**That's it!** Everything else adapts automatically:
-- ✅ Timing estimates
-- ✅ Progress displays
-- ✅ Statistics
-- ✅ Output messages
-
-### Configuration Variables Explained
-
-#### `NUM_TRIALS`
-**What it does:** Number of times to train each network architecture  
-**Why it matters:** More trials = better statistical confidence  
-**Typical values:** 1-20  
-**Default:** 3 (quick testing), 10 (full benchmark)
-
-**Example:**
-```python
-NUM_TRIALS = 5  # Each network will be trained 5 times
-```
-
-#### `EPOCHS`
-**What it does:** Number of complete passes through training data per trial  
-**Why it matters:** More epochs = higher accuracy but longer training  
-**Typical values:** 5-30  
-**Default:** 10 (quick testing), 30 (full benchmark)
-
-**Example:**
-```python
-EPOCHS = 20  # Each trial trains for 20 epochs
-```
-
-#### `MINI_BATCH_SIZE`
-**What it does:** Number of training examples to process before updating weights  
-**Why it matters:** Smaller = noisier gradients but faster convergence  
-**Typical values:** 1-128  
-**Default:** 10 (good for MNIST)
-
-**Example:**
-```python
-MINI_BATCH_SIZE = 32  # Update weights after every 32 examples
-```
-
-#### `LEARNING_RATE`
-**What it does:** How big of a step to take when updating weights  
-**Why it matters:** Too high = unstable training, too low = slow learning  
-**Typical values:** 0.01-5.0 for sigmoid networks  
-**Default:** 3.0 (works well for these networks)
-
-**Example:**
-```python
-LEARNING_RATE = 1.0  # Smaller steps, more conservative learning
-```
-
 ### Preset Configurations
 
-Copy and paste one of these into `benchmark_runner.py`:
-
-#### Ultra Quick Test (~5 minutes)
-Perfect for testing the script or quick experiments
+**Ultra Quick Test (~5 minutes)** - Test the script
 ```python
 NUM_TRIALS = 1
 EPOCHS = 5
@@ -125,8 +249,7 @@ MINI_BATCH_SIZE = 10
 LEARNING_RATE = 3.0
 ```
 
-#### Quick Test (~10-15 minutes) ⭐ **CURRENT DEFAULT**
-Good balance for quick insights
+**Quick Test (~10-15 minutes)** ⭐ **DEFAULT**
 ```python
 NUM_TRIALS = 3
 EPOCHS = 10
@@ -134,8 +257,7 @@ MINI_BATCH_SIZE = 10
 LEARNING_RATE = 3.0
 ```
 
-#### Standard Benchmark (~30-40 minutes)
-Better statistics, reasonable accuracy
+**Standard Benchmark (~30-40 minutes)** - Better statistics
 ```python
 NUM_TRIALS = 5
 EPOCHS = 20
@@ -143,8 +265,7 @@ MINI_BATCH_SIZE = 10
 LEARNING_RATE = 3.0
 ```
 
-#### Full Benchmark (~85-90 minutes)
-High statistical confidence, near-peak accuracy
+**Full Benchmark (~85-90 minutes)** - High confidence
 ```python
 NUM_TRIALS = 10
 EPOCHS = 30
@@ -152,264 +273,145 @@ MINI_BATCH_SIZE = 10
 LEARNING_RATE = 3.0
 ```
 
-#### Production-Quality Benchmark (~3 hours)
-Maximum statistical rigor for research/publication
-```python
-NUM_TRIALS = 20
-EPOCHS = 30
-MINI_BATCH_SIZE = 10
-LEARNING_RATE = 3.0
-```
+### What the Benchmark Measures
 
-### Examples of Custom Configurations
+For architecture comparisons (1.0.0, 1.1.0, 1.2.0, 1.3.0):
+- **Accuracy metrics**: Mean, std dev, min, max across trials
+- **Speed metrics**: Training time per epoch
+- **Efficiency metrics**: Accuracy per parameter
+- **Rankings**: Best to worst across dimensions
 
-**Test a specific learning rate:**
-```python
-NUM_TRIALS = 5
-EPOCHS = 20
-MINI_BATCH_SIZE = 10
-LEARNING_RATE = 0.5  # Testing slower learning
-```
-
-**Test different batch sizes:**
-```python
-NUM_TRIALS = 3
-EPOCHS = 15
-MINI_BATCH_SIZE = 50  # Larger batches
-LEARNING_RATE = 3.0
-```
-
-**Maximum accuracy (long runtime!):**
-```python
-NUM_TRIALS = 10
-EPOCHS = 50  # Train longer
-MINI_BATCH_SIZE = 10
-LEARNING_RATE = 3.0
-```
-
-**Quick comparison for demos:**
-```python
-NUM_TRIALS = 1  # No statistics, just one run
-EPOCHS = 3      # Very quick
-MINI_BATCH_SIZE = 10
-LEARNING_RATE = 3.0
-```
+**Note:** The benchmark is designed for architecture comparison. To compare hyperparameters (learning rates, batch sizes, epochs), run the individual files manually and compare results.
 
 ---
 
-## Benchmark Duration
+## Key Learning Outcomes
 
-**The script automatically estimates runtime based on your configuration!**
+By completing this series, you will understand:
 
-Approximate times for different configurations:
+### Hyperparameter Effects
+1. **Learning Rate**: How step size affects convergence speed and stability
+2. **Batch Size**: How mini-batch size affects gradient quality and training dynamics
+3. **Training Duration**: How epoch count affects convergence and overfitting
+4. **Trade-offs**: Speed vs stability, noise vs efficiency, time vs performance
 
-| Configuration | NUM_TRIALS | EPOCHS | Estimated Time |
-|--------------|------------|--------|----------------|
-| Ultra Quick | 1 | 5 | ~5 minutes |
-| Quick Test | 3 | 10 | ~10-15 minutes |
-| Standard | 5 | 20 | ~30-40 minutes |
-| Full Benchmark | 10 | 30 | ~85-90 minutes |
-| Production | 20 | 30 | ~3 hours |
+### Architecture Choices
+1. **Width**: Adding neurons increases parallel feature capacity
+2. **Depth**: Adding layers enables hierarchical feature learning
+3. **Combination**: Modern networks use both for maximum power
+4. **Trade-offs**: Parameters vs performance, efficiency vs capacity
 
-**Timing factors:**
-- Wider networks (more neurons) train slower
-- Deeper networks (more layers) train slower
-- More epochs = proportionally longer
-- More trials = proportionally longer
-
-The benchmark runner shows an estimate **before** starting!
-
----
-
-## What the Benchmark Measures
-
-### Accuracy Metrics
-- Final test accuracy (%)
-- Mean and standard deviation across trials
-- Best and worst performance
-
-### Speed Metrics
-- Total training time
-- Average time per epoch
-- Training efficiency
-
-### Derived Metrics
-- Parameter efficiency (accuracy per 1000 parameters)
-- Balanced score (accuracy vs speed trade-off)
-- Rankings across all dimensions
+### Practical Skills
+1. **Reading training curves** - Recognizing convergence, overfitting, underfitting
+2. **Hyperparameter tuning** - Balancing competing objectives
+3. **Architecture design** - Choosing width vs depth based on problem
+4. **Performance analysis** - Statistical evaluation and comparison
 
 ---
 
-## Example Output
+## Fundamental Concepts Covered
 
-Example with `NUM_TRIALS=10, EPOCHS=30` (full benchmark):
+### Neural Network Basics (network_1.0.0.py)
+- **Architecture**: Layers, neurons, weights, biases
+- **Forward pass**: Computing predictions layer by layer
+- **Cost function**: Measuring prediction error (quadratic loss)
+- **Backpropagation**: Computing gradients efficiently
+- **SGD**: Updating parameters to minimize cost
+- **Mini-batches**: Balancing computation and gradient quality
 
-```
-COMPREHENSIVE BENCHMARK COMPARISON
-==================================================================================
-
-Network         Architecture         Params     Accuracy             Speed (s/epoch)     
-----------------------------------------------------------------------------------
-network_1.0     [784, 30, 10]       23,860     95.23% ± 0.15%       1.42s ± 0.03s       
-network_1.1     [784, 30, 30, 10]   24,790     95.87% ± 0.18%       1.58s ± 0.04s       
-network_1.2     [784, 60, 10]       47,710     96.45% ± 0.12%       2.31s ± 0.05s       
-network_1.3     [784, 60, 60, 10]   51,370     97.12% ± 0.14%       2.67s ± 0.06s       
-----------------------------------------------------------------------------------
-
-RANKINGS
-
-By Final Accuracy (highest to lowest):
-  1. network_1.3      97.12%  (Width + Depth (wide + deep))
-  2. network_1.2      96.45%  (Width (wide + shallow))
-  3. network_1.1      95.87%  (Depth (narrow + deep))
-  4. network_1.0      95.23%  (Narrow + Shallow)
-
-By Training Speed (fastest to slowest):
-  1. network_1.0      1.42s/epoch  (Narrow + Shallow)
-  2. network_1.1      1.58s/epoch  (Depth (narrow + deep))
-  3. network_1.2      2.31s/epoch  (Width (wide + shallow))
-  4. network_1.3      2.67s/epoch  (Width + Depth (wide + deep))
-```
-
-### Understanding the Output
-
-**During Run:**
-```
-Trial 1/3... Done! Accuracy: 95.23%, Time: 14.2s
-```
-- Shows progress (Trial 1 of 3 total)
-- Displays final accuracy for this trial
-- Shows total time for this trial
-
-**Summary Statistics:**
-```
-Final Accuracy: 95.23% ± 0.15%
-(min: 95.05%, max: 95.38%)
-```
-- Mean ± standard deviation across all trials
-- Range shows best and worst performance
-
-**Timing:**
-```
-Actual time: 12.3 minutes
-Estimated time: 12.5 minutes
-✓ Time estimate was accurate!
-```
-- Compares actual vs estimated time
-- Helps you plan future runs
+### Advanced Concepts (later files)
+- **Learning dynamics**: How different hyperparameters affect training
+- **Exploration vs exploitation**: Gradient noise and optimization
+- **Convergence**: When and why training plateaus
+- **Feature learning**: What neurons actually learn
+- **Hierarchical representations**: Low-level to high-level features
+- **Network capacity**: How architecture affects representational power
 
 ---
 
-## Key Insights
+## Tips for Learners
 
-### Width vs Depth Trade-offs
+### First Time Through
+1. **Start with 1.0.0** - Don't skip the foundation!
+2. **Read all comments** - They explain not just *what* but *why*
+3. **Watch the training** - See how accuracy improves epoch by epoch
+4. **Experiment** - Try changing hyperparameters and see what happens
+5. **Follow the order** - Each file builds on previous knowledge
 
-#### WIDTH (network_1.2)
-- ✅ More parallel feature detectors
-- ✅ Higher representational capacity
-- ✅ Less prone to vanishing gradients
-- ❌ More parameters = slower training
-- ❌ No hierarchical features
+### Going Deeper
+1. **Compare results** - Run experiments side by side
+2. **Vary parameters** - Edit the code to test your understanding
+3. **Read the code** - See how backpropagation is implemented
+4. **Run benchmarks** - Get statistical comparisons
+5. **Modify architectures** - Try different layer sizes
 
-#### DEPTH (network_1.1)
-- ✅ Hierarchical feature learning
-- ✅ Parameter-efficient (+3.9% params vs baseline)
-- ✅ Compositional representations
-- ❌ Vanishing gradient issues with sigmoid
-- ❌ Limited capacity per layer
+### Common Questions
 
-#### WIDTH + DEPTH (network_1.3)
-- ✅ Best accuracy (~97-98%)
-- ✅ Combines benefits of both strategies
-- ✅ Rich hierarchical features
-- ❌ Most parameters (+115% vs baseline)
-- ❌ Slowest training
-- ❌ Higher overfitting risk
+**Q: Why start with network_1.0.0.py?**
+A: It provides comprehensive explanation of all core concepts. Later files assume you understand these basics.
+
+**Q: Do I need to run all 10 files?**
+A: No! But running them in sequence gives the best learning experience. You can skip experiments that don't interest you.
+
+**Q: Why does training take so long?**
+A: Neural networks need many iterations to learn. 30 epochs × 50,000 images = 1.5M training examples! You can reduce epochs for faster experiments.
+
+**Q: Can I modify the code?**
+A: Absolutely! Experimentation is encouraged. Try different architectures, learning rates, etc.
+
+**Q: What's the difference between these and network2.py/network3.py?**
+A: These files (network_1.x) use basic techniques for education. network2.py and network3.py introduce advanced techniques (cross-entropy, regularization, better initialization, etc.) that significantly improve performance.
+
+---
+
+## Architecture Comparison Summary
+
+| Network | Architecture | Parameters | Strategy | Accuracy | Speed | Best For |
+|---------|-------------|------------|----------|----------|-------|----------|
+| 1.0.0 | `[784, 30, 10]` | 23,860 | Baseline | ~95% | Fast | Learning & experimentation |
+| 1.1.0 | `[784, 30, 30, 10]` | 24,790 (+3.9%) | Depth | ~95-96% | Medium | Parameter efficiency |
+| 1.2.0 | `[784, 60, 10]` | 47,710 (+100%) | Width | ~96-97% | Medium-Slow | Accuracy with sigmoid |
+| 1.3.0 | `[784, 60, 60, 10]` | 51,370 (+115%) | Both | ~97-98% | Slowest | Maximum accuracy |
 
 ### When to Use Each
 
-- **network_1.0**: Fast experimentation, baseline comparison
-- **network_1.1**: Learning about depth with minimal overhead
-- **network_1.2**: Best accuracy/speed balance for production
-- **network_1.3**: Maximum accuracy when compute isn't constrained
+- **1.0.0 (Baseline)**: Fast experimentation, learning, baseline comparisons
+- **1.1.0 (Depth)**: Understanding hierarchical learning, parameter efficiency demonstrations
+- **1.2.0 (Width)**: Best practical choice for this problem with sigmoid activation
+- **1.3.0 (Width+Depth)**: Maximum accuracy when computational cost isn't a concern
 
 ---
 
-## Tips and Best Practices
+## Beyond This Tutorial
 
-1. **Start small**: Use `NUM_TRIALS=1, EPOCHS=5` to test changes
-2. **For serious comparisons**: Use at least `NUM_TRIALS=5, EPOCHS=20`
-3. **For publications**: Use `NUM_TRIALS=10, EPOCHS=30` minimum
-4. **Save your configs**: Comment out different presets you've tried
-5. **Copy results**: Save terminal output if you need to reference results later
+After completing this series, you're ready for:
 
-### Troubleshooting
+1. **network2.py** - Advanced techniques (cross-entropy, regularization, better initialization)
+2. **network3.py** - Modern architectures and techniques
+3. **Convolutional networks** - Specialized architectures for images
+4. **Modern frameworks** - PyTorch, TensorFlow, JAX
 
-**"Taking too long!"**  
-→ Reduce `NUM_TRIALS` and `EPOCHS`
+### Why These Techniques Matter
 
-**"Results are inconsistent"**  
-→ Increase `NUM_TRIALS` for better statistics
+This tutorial uses sigmoid activation and quadratic cost for simplicity, but modern networks use:
+- **ReLU activation** - Solves vanishing gradient problem
+- **Cross-entropy loss** - Better for classification
+- **Batch normalization** - Stabilizes deep network training
+- **Regularization** - Prevents overfitting (L2, dropout)
+- **Better initialization** - Prevents saturation early in training
+- **Adaptive optimizers** - Adam, RMSprop (auto-tune learning rates)
 
-**"Networks not learning well"**  
-→ Try different `LEARNING_RATE` values (try 1.0 or 5.0)
-
-**"Want faster training"**  
-→ Increase `MINI_BATCH_SIZE` (but may hurt accuracy slightly)
-
----
-
-## Educational Value
-
-This comparison demonstrates fundamental deep learning concepts:
-
-1. **Architecture design choices** (width vs depth)
-2. **Performance trade-offs** (accuracy vs speed vs parameters)
-3. **Statistical evaluation** (why multiple runs matter)
-4. **Practical considerations** (efficiency, scalability, production constraints)
-
-### Key Takeaways
-
-**Width provides CAPACITY:**
-- More neurons = more parallel feature detectors
-- Can represent more diverse patterns simultaneously
-- Better raw performance but costs parameters
-
-**Depth provides HIERARCHY:**
-- More layers = compositional feature learning
-- Low-level → high-level feature progression
-- More parameter-efficient but harder to optimize
-
-**Width + Depth provides MAXIMUM POWER:**
-- Combines benefits: diverse hierarchical features
-- Best accuracy but highest computational cost
-- This is why modern networks are BOTH wide AND deep!
-
-**Modern Deep Learning:**
-Modern architectures (ResNet, Transformers, etc.) use **both width and depth** with advanced techniques to overcome the limitations demonstrated here:
-- ReLU activations (instead of sigmoid)
-- Batch normalization
-- Residual connections
-- Attention mechanisms
-
-These techniques address vanishing gradients and training instability issues present in these basic networks.
+These improvements are covered in network2.py and network3.py!
 
 ---
 
-## Advanced: Modifying the Benchmark
+## Credits
 
-The benchmark script rarely needs changes beyond the 4 configuration variables. However, if you want to customize further:
+This educational series is part of the Neural Networks and Deep Learning book by Michael Nielsen.
+The files have been structured to provide a progressive, hands-on learning experience.
 
-- `NETWORK_CONFIGS` - The 4 architectures being tested
-- `BenchmarkNetwork` class - How metrics are tracked
-- Output formatting - Tables and rankings
-
-Only modify these if you want to:
-- Add new network architectures
-- Change what metrics are tracked
-- Customize the output format
-- Add new analysis features
+**Remember**: The best way to learn is by doing. Run the code, read the comments, experiment with changes, and compare results!
 
 ---
 
-**Remember:** Just change the 4 variables, everything else adapts! 🎯
+**Happy Learning!**

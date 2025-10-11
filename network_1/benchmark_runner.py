@@ -3,10 +3,10 @@ Network Architecture Benchmark Runner
 ======================================
 
 This script runs comparative benchmarks across all 4 network architectures:
-- network_1.0.py: [784, 30, 10] - Baseline (narrow + shallow)
-- network_1.1.py: [784, 30, 30, 10] - Depth strategy
-- network_1.2.py: [784, 60, 10] - Width strategy
-- network_1.3.py: [784, 60, 60, 10] - Width + Depth strategy
+- network_1.0.0.py: [784, 30, 10] - Baseline (narrow + shallow)
+- network_1.1.0.py: [784, 30, 30, 10] - Depth strategy
+- network_1.2.0.py: [784, 60, 10] - Width strategy
+- network_1.3.0.py: [784, 60, 60, 10] - Width + Depth strategy
 
 For each architecture, runs multiple trials and records:
 - Final test accuracy
@@ -38,28 +38,28 @@ import numpy as np
 # Network configurations to benchmark
 NETWORK_CONFIGS = [
     {
-        'name': 'network_1.0',
+        'name': 'network_1.0.0',
         'architecture': [784, 30, 10],
         'description': 'Baseline (narrow + shallow)',
         'params': 23860,
         'strategy': 'Narrow + Shallow'
     },
     {
-        'name': 'network_1.1',
+        'name': 'network_1.1.0',
         'architecture': [784, 30, 30, 10],
         'description': 'Depth strategy',
         'params': 24790,
         'strategy': 'Depth (narrow + deep)'
     },
     {
-        'name': 'network_1.2',
+        'name': 'network_1.2.0',
         'architecture': [784, 60, 10],
         'description': 'Width strategy',
         'params': 47710,
         'strategy': 'Width (wide + shallow)'
     },
     {
-        'name': 'network_1.3',
+        'name': 'network_1.3.0',
         'architecture': [784, 60, 60, 10],
         'description': 'Width + Depth strategy',
         'params': 51370,
@@ -86,7 +86,7 @@ EPOCHS = 10             # More epochs = higher accuracy, but longer runtime
 MINI_BATCH_SIZE = 10    # Typical: 10 (smaller = noisier but faster convergence)
 
 # Learning rate for stochastic gradient descent
-LEARNING_RATE = 3.0     # Typical: 3.0 for sigmoid networks (higher = faster but riskier)
+LEARNING_RATE = 5.0     # Typical: 3.0 for sigmoid networks (higher = faster but riskier)
 
 # ==============================================================================
 # 📋 PRESET CONFIGURATIONS - Copy & paste one to use:
@@ -352,10 +352,10 @@ def estimate_benchmark_time():
     # Approximate times per epoch for each network (in seconds)
     # Based on typical performance on modern hardware
     epoch_times = {
-        'network_1.0': 1.4,   # [784, 30, 10]
-        'network_1.1': 1.6,   # [784, 30, 30, 10]
-        'network_1.2': 2.3,   # [784, 60, 10]
-        'network_1.3': 2.7    # [784, 60, 60, 10]
+        'network_1.0.0': 1.4,   # [784, 30, 10]
+        'network_1.1.0': 1.6,   # [784, 30, 30, 10]
+        'network_1.2.0': 2.3,   # [784, 60, 10]
+        'network_1.3.0': 2.7    # [784, 60, 60, 10]
     }
     
     total_seconds = 0
@@ -430,11 +430,11 @@ def main():
     if abs(accuracy_diff) < 2:
         print(f"✓  Time estimate was accurate!")
     elif accuracy_diff > 0:
-        print(f"⚠️  Took {accuracy_diff:.1f} minutes longer than estimated (system may be slower)")
+        print(f"Took {accuracy_diff:.1f} minutes longer than estimated (system may be slower)")
     else:
         print(f"✓  Completed {abs(accuracy_diff):.1f} minutes faster than estimated!")
     
-    print(f"\n📋 Configuration used:")
+    print(f"\nConfiguration used:")
     print(f"   • {NUM_TRIALS} trials × {EPOCHS} epochs = {NUM_TRIALS * EPOCHS} runs per network")
     print(f"   • {len(NETWORK_CONFIGS)} networks tested")
     print(f"   • Learning rate: {LEARNING_RATE}, Mini-batch size: {MINI_BATCH_SIZE}")
