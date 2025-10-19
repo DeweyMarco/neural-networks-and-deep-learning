@@ -249,7 +249,7 @@ MINI_BATCH_SIZE = 10
 LEARNING_RATE = 3.0
 ```
 
-**Quick Test (~10-15 minutes)** ⭐ **DEFAULT**
+**Quick Test (~10-15 minutes)** **DEFAULT**
 ```python
 NUM_TRIALS = 3
 EPOCHS = 10
